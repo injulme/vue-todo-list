@@ -1,27 +1,32 @@
-<script setup>
-const props = defineProps({
-  text: String,
-  variant: "primary" | "secondary",
-});
-console.log("props => ", props.variant);
+<template>
+  <button class="button" @click="handleClick"><slot></slot></button>
+</template>
+<script>
+export default {
+  methods: {
+    handleClick() {
+      console.log("button in components");
+      // this.$emit("click");
+    },
+  },
+};
 </script>
 
-<template>
-  <button class="button">{{ text }}</button>
-</template>
-
 <style scoped>
-button {
-  padding: 12px 24px;
-  border: 2px solid yellow;
+.button {
+  min-width: 40px;
+  height: 40px;
   border-radius: 8px;
   background-color: orange;
   color: white;
   font-size: 24px;
   font-weight: bold;
   cursor: pointer;
+  outline: none;
+  border: 0;
+  box-sizing: border-box;
 }
-button:hover {
+.button:hover {
   opacity: 0.8;
 }
 </style>

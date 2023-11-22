@@ -1,55 +1,56 @@
-<script setup>
-import HelloWorld from "./components/HelloWorld.vue";
-import TheWelcome from "./components/TheWelcome.vue";
-import Button from "./components/Button.vue";
-</script>
-
+<!-- App.vue -->
 <template>
-  <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="./assets/logo.svg"
-      width="125"
-      height="125"
-    />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <Button text="button" variant="primary" />
-    <TheWelcome />
-  </main>
+  <Layout>
+    <template #header>
+      <Header />
+    </template>
+    <template #scheduler>
+      <Scheduler />
+    </template>
+    <template #list>
+      <List />
+    </template>
+  </Layout>
+  <!-- <input
+    v-model="newTodo"
+    @keyup.enter="addTodo"
+    placeholder="Add a new todo"
+    class="input"
+  />
+  <ul>
+    <li v-for="(todo, index) in todos" :key="index">
+      {{ todo }}
+      <button @click="removeTodo(index)">Remove</button>
+    </li>
+  </ul> -->
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
+<script>
+import Scheduler from "./components/Scheduler.vue";
+import Header from "./components/Header.vue";
+import Layout from "./components/Layout.vue";
+import List from "./components/List.vue";
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+export default {
+  data() {
+    return {
+      newTodo: "",
+      todos: [],
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.trim() !== "") {
+        this.todos.push(this.newTodo);
+        this.newTodo = "";
+      }
+    },
+    removeTodo(index) {
+      this.todos.splice(index, 1);
+    },
+  },
+  components: { Scheduler, Header, Layout, List },
+};
+</script>
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
+<style></style>
