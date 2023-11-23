@@ -1,6 +1,9 @@
 <template>
-  <div class="list-item">
-    <div class="list-item__status-icon">
+  <div class="list-item" @click="changeStatus(status)">
+    <div
+      class="list-item__status-icon"
+      :class="{ 'todo-icon': status === 'todo' }"
+    >
       <component :is="iconComponent" />
     </div>
     <div>
@@ -15,19 +18,30 @@
 </template>
 
 <script>
-const statusIcons = {
-  todo: XmarkCircleIcon,
-  inprogress: CheckCircleIcon,
-  success: CheckCircleIcon,
-};
 import CheckCircleIcon from "./icons/IconCheckCircle.vue";
-import XmarkCircleIcon from "./icons/IconXmarkCircle.vue";
-export default {
-  props: ["title", "content", "date", "status"],
 
+export default {
+  props: {
+    title: String,
+    content: String,
+    date: String,
+    status: String,
+    index: Number,
+  },
+
+  methods: {
+    changeStatus(status) {
+      let newStatus = "";
+      if (status === "todo") newStatus = "success";
+      else if (status === "success") newStatus = "todo";
+      else alert("잘못된 접근입니다.");
+
+      this.$emit("updateStatus", newStatus, this.index);
+    },
+  },
   computed: {
     iconComponent() {
-      return statusIcons[this.status];
+      return CheckCircleIcon;
     },
   },
 };
@@ -35,12 +49,16 @@ export default {
 
 <style>
 .list-item {
-  background-color: var(--coral-light);
+  background-color: var(--purple-light);
   border-radius: var(--border-radius-sm);
   display: flex;
   gap: 12px;
   padding: 12px;
   align-items: center;
+  cursor: pointer;
+}
+.list-item:hover {
+  background-color: var(--blue-light);
 }
 .list-item__status-icon {
   width: 32px;
@@ -49,7 +67,11 @@ export default {
 .list-item__status-icon svg {
   width: 32px;
   height: 32px;
-  fill: var(--purple);
+  fill: var(--blue);
+}
+
+.todo-icon svg {
+  fill: var(--gray);
 }
 .list-item__title {
   font-size: 14px;
