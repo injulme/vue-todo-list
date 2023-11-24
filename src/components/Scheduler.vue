@@ -1,19 +1,43 @@
 <template>
   <div class="scheduler">
-    <Calendar expanded borderless :attributes="attributes" />
+    <Calendar
+      expanded
+      borderless
+      :attributes="attributes"
+      @dayclick="onDayClickHandler"
+    />
   </div>
 </template>
 
 <script setup>
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-import { ref } from "vue";
+import { ref, inject } from "vue";
+
+// import { globalState } from "../App.vue";
+
+// const { selectedDate, updateSelectedDate } = inject("globalState");
+// console.log("globalState", selectedDate, updateSelectedDate);
+
+const selectedDate = ref(null);
+const onDayClickHandler = (date) => {
+  console.log("on day click ==> ", date.id);
+  selectedDate.value = date.id;
+  // updateSelectedDate(date.id);
+  // selectedDate = date.id;
+};
 
 const attributes = ref([
   {
     key: "today",
     highlight: true,
     dates: new Date(),
+  },
+  {
+    highlight: {
+      fillMode: "outline",
+    },
+    dates: selectedDate,
   },
 ]);
 </script>
@@ -46,5 +70,15 @@ const attributes = ref([
 
 .scheduler :deep(.vc-highlight-bg-solid) {
   background-color: var(--purple);
+}
+
+.scheduler :deep(.vc-highlight-bg-outline) {
+  border-color: var(--purple);
+}
+
+.scheduler :deep(.vc-highlight-content-outline) {
+  font-family: "KCC-Ganpan";
+  font-weight: 600;
+  color: var(--purple);
 }
 </style>
