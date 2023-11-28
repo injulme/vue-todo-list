@@ -14,19 +14,8 @@ import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
 import { ref, inject } from "vue";
 
-// import { globalState } from "../App.vue";
-
-// const { selectedDate, updateSelectedDate } = inject("globalState");
-// console.log("globalState", selectedDate, updateSelectedDate);
-
-const selectedDate = ref(null);
-const onDayClickHandler = (date) => {
-  console.log("on day click ==> ", date.id);
-  selectedDate.value = date.id;
-  // updateSelectedDate(date.id);
-  // selectedDate = date.id;
-};
-
+const selectedDate = inject("selectedDate");
+const onDayClickHandler = inject("onDayClickHandler");
 const attributes = ref([
   {
     key: "today",

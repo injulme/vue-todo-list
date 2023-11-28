@@ -67,7 +67,7 @@ export default {
 .list-item__status-icon svg {
   width: 32px;
   height: 32px;
-  fill: var(--blue);
+  fill: var(--purple-dark);
 }
 
 .todo-icon svg {

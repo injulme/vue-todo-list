@@ -10,19 +10,10 @@
     <template #list>
       <List />
     </template>
+    <template #floating-button>
+      <FloatingButton />
+    </template>
   </Layout>
-  <!-- <input
-    v-model="newTodo"
-    @keyup.enter="addTodo"
-    placeholder="Add a new todo"
-    class="input"
-  />
-  <ul>
-    <li v-for="(todo, index) in todos" :key="index">
-      {{ todo }}
-      <button @click="removeTodo(index)">Remove</button>
-    </li>
-  </ul> -->
 </template>
 
 <script>
@@ -30,26 +21,62 @@ import Scheduler from "./components/Scheduler.vue";
 import Header from "./components/Header.vue";
 import Layout from "./components/Layout.vue";
 import List from "./components/List.vue";
+import Modal from "./components/Modal.vue";
+import { ref, provide } from "vue";
+import { listItemData } from "../data";
+import FloatingButton from "./components/FloatingButton.vue";
+import dayjs from "dayjs";
 
 export default {
-  data() {
-    return {
-      newTodo: "",
-      todos: [],
+  setup() {
+    const selectedDate = ref(dayjs().format("YYYY-MM-DD"));
+    provide("selectedDate", selectedDate);
+    const initialListItemData = ref(listItemData);
+    provide("initialListItemData", initialListItemData);
+
+    const listItem = ref(initialListItemData.value);
+    provide("listItem", listItem);
+
+    const onDayClickHandler = (date) => {
+      selectedDate.value = date.id;
+      const listItemByDate = initialListItemData.value.filter(
+        (item) => item.date === date.id
+      );
+      listItem.value = listItemByDate;
     };
-  },
-  methods: {
-    addTodo() {
-      if (this.newTodo.trim() !== "") {
-        this.todos.push(this.newTodo);
-        this.newTodo = "";
+    provide("onDayClickHandler", onDayClickHandler);
+
+    const isModalVisible = ref(false);
+
+    function showModal() {
+      isModalVisible.value = true;
+    }
+    function closeModal() {
+      isModalVisible.value = false;
+    }
+
+    function addTodo(title, content) {
+      if (title.trim() !== "" && content.trim() !== "") {
+        const submitData = {
+          title: title,
+          content: content,
+          date: selectedDate.value,
+          status: "todo",
+        };
+        listItem.value.unshift(submitData);
+        initialListItemData.value.unshift(submitData);
+
+        closeModal();
       }
-    },
-    removeTodo(index) {
-      this.todos.splice(index, 1);
-    },
+    }
+
+    provide("addTodo", addTodo);
+    provide("isModalVisible", isModalVisible);
+    provide("showModal", showModal);
+    provide("closeModal", closeModal);
   },
-  components: { Scheduler, Header, Layout, List },
+
+  components: { Scheduler, Header, Layout, List, Modal, FloatingButton },
 };
 </script>
 
