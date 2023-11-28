@@ -1,10 +1,10 @@
 <template>
   <div class="app-layout">
+    <Modal v-if="isModalVisible" />
     <slot name="header"></slot>
     <slot name="scheduler"></slot>
     <slot name="list"></slot>
     <slot name="floating-button"></slot>
-    <Modal v-if="isModalVisible" />
   </div>
 </template>
 

@@ -55,13 +55,14 @@ export default {
       isModalVisible.value = false;
     }
 
-    function addTodo(title, content) {
+    function addTodo(title, content, priority) {
       if (title.trim() !== "" && content.trim() !== "") {
         const submitData = {
           title: title,
           content: content,
           date: selectedDate.value,
           status: "todo",
+          priority: priority,
         };
         listItem.value.unshift(submitData);
         initialListItemData.value.unshift(submitData);

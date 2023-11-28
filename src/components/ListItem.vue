@@ -1,8 +1,14 @@
 <template>
-  <div class="list-item" @click="changeStatus(status)">
+  <div
+    class="list-item"
+    :class="`priority-${this.priority}`"
+    @click="changeStatus(status)"
+  >
     <div
       class="list-item__status-icon"
-      :class="{ 'todo-icon': status === 'todo' }"
+      :class="{
+        'active-icon': status === 'todo',
+      }"
     >
       <component :is="iconComponent" />
     </div>
@@ -26,6 +32,7 @@ export default {
     content: String,
     date: String,
     status: String,
+    priority: String,
     index: Number,
   },
 
@@ -57,8 +64,20 @@ export default {
   align-items: center;
   cursor: pointer;
 }
+
+.priority-high {
+  background-color: var(--pink-light);
+}
+.priority-medium {
+  background-color: var(--coral-light);
+}
+.priority-low {
+  background-color: var(--purple-light);
+}
+
 .list-item:hover {
-  background-color: var(--blue-light);
+  /* background-color: var(--blue-light); */
+  opacity: 0.8;
 }
 .list-item__status-icon {
   width: 32px;
@@ -70,7 +89,7 @@ export default {
   fill: var(--purple-dark);
 }
 
-.todo-icon svg {
+.active-icon svg {
   fill: var(--gray);
 }
 .list-item__title {

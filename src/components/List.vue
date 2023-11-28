@@ -7,9 +7,10 @@
       :content="item.content"
       :date="item.date"
       :status.sync="item.status"
+      :priority="item.priority"
       @updateStatus="updateStatus"
       :index="index"
-      :key="index"
+      :key="`${item.title}_${index}`"
     />
     <div v-else>등록된 일정이 없습니다.</div>
   </div>
