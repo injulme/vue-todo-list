@@ -49,8 +49,6 @@ export default {
 </script>
 
 <style>
-/* TODO: scroll top, bottom 에 box shadow 씌우기 */
-/* https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/ */
 .list {
   display: flex;
   flex-direction: column;
