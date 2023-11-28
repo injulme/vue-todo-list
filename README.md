@@ -27,3 +27,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### reference
+
+https://dribbble.com/shots/10772325-VET-Diary-part-II
