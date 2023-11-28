@@ -12,10 +12,24 @@
 <script setup>
 import { Calendar } from "v-calendar";
 import "v-calendar/style.css";
-import { ref, inject } from "vue";
+import { ref, inject, isProxy, toRaw } from "vue";
 
 const selectedDate = inject("selectedDate");
 const onDayClickHandler = inject("onDayClickHandler");
+const initialListItemData = inject("initialListItemData");
+
+let initial = initialListItemData.value;
+let dotDates = [];
+if (isProxy(initial)) {
+  initial = toRaw(initialListItemData.value);
+  dotDates = initial.reduce((acc, current) => {
+    if (acc.findIndex((date) => date === current.date) === -1) {
+      acc.push(current.date);
+    }
+    return acc;
+  }, []);
+}
+
 const attributes = ref([
   {
     key: "today",
@@ -27,6 +41,10 @@ const attributes = ref([
       fillMode: "outline",
     },
     dates: selectedDate,
+  },
+  {
+    dot: true,
+    dates: dotDates,
   },
 ]);
 </script>
@@ -69,5 +87,9 @@ const attributes = ref([
   font-family: "KCC-Ganpan";
   font-weight: 600;
   color: var(--purple);
+}
+
+.scheduler :deep(.vc-dot) {
+  background-color: var(--pink);
 }
 </style>

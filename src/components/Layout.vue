@@ -1,25 +1,11 @@
 <template>
   <div class="app-layout">
-    <Modal v-if="isModalVisible" />
     <slot name="header"></slot>
     <slot name="scheduler"></slot>
     <slot name="list"></slot>
     <slot name="floating-button"></slot>
   </div>
 </template>
-
-<script>
-import { inject } from "vue";
-import Modal from "./Modal.vue";
-
-export default {
-  setup() {
-    const isModalVisible = inject("isModalVisible");
-    return { isModalVisible };
-  },
-  components: { Modal },
-};
-</script>
 
 <style>
 .app-layout {

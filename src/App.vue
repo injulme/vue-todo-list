@@ -1,5 +1,7 @@
 <!-- App.vue -->
 <template>
+  <Modal v-if="isModalVisible" />
+
   <Layout>
     <template #header>
       <Header />
@@ -21,11 +23,11 @@ import Scheduler from "./components/Scheduler.vue";
 import Header from "./components/Header.vue";
 import Layout from "./components/Layout.vue";
 import List from "./components/List.vue";
-import Modal from "./components/Modal.vue";
 import { ref, provide } from "vue";
 import { listItemData } from "../data";
 import FloatingButton from "./components/FloatingButton.vue";
 import dayjs from "dayjs";
+import Modal from "./components/Modal.vue";
 
 export default {
   setup() {
@@ -75,9 +77,11 @@ export default {
     provide("isModalVisible", isModalVisible);
     provide("showModal", showModal);
     provide("closeModal", closeModal);
+
+    return { isModalVisible };
   },
 
-  components: { Scheduler, Header, Layout, List, Modal, FloatingButton },
+  components: { Scheduler, Header, Layout, List, Modal, FloatingButton, Modal },
 };
 </script>
 
